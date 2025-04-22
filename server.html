@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BEFNSMP | Mini-games Server</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+    }
+    header {
+      background-color: rgba(0,0,0,0.6);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+      margin: 10px 0;
+    }
+    .gray { color: #aaaaaa; font-weight: bold; }
+    .gold { color: #ffaa00; font-weight: bold; }
+    section {
+      padding: 50px 20px;
+      background-color: rgba(0,0,0,0.6);
+      margin: 20px;
+      border-radius: 15px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #7289da;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .ip-status-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      background: #222;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 1.2em;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .ip-text {
+      font-weight: bold;
+    }
+    .status-text {
+      background-color: #333;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+    .server-icon {
+      width: 80px;
+      height: auto;
+      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="favicon.png" alt="Server Icon" class="server-icon">
+    <h1><span class="gray">BEFN</span><span class="gold">SMP</span></h1>
+    <div class="ip-status-box">
+      <span class="ip-text">IP: play.befnsmp.com</span>
+      <span id="status-text" class="status-text">Checking status...</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>🎮 What is BEFNSMP?</h2>
+    <p><strong>BEFNSMP</strong> is your go-to Minecraft mini-games hub. From high-speed parkour to intense PvP battles, there's something for everyone. Bring your crew or challenge new players — every round is a new adventure!</p>
+  </section>
+
+  <section>
+    <h2>📜 Server Rules</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <div style="flex: 1 1 160px; background: #111; padding: 10px 12px; border-radius: 8px; font-size: 0.95em;">
+        ✅ Be kind and respectful
+      </div>
+      <div style="flex: 1 1 160px; background: #111; padding: 10px 12px; border-radius: 8px; font-size: 0.95em;">
+        🚫 No cheating or exploits
+      </div>
+      <div style="flex: 1 1 160px; background: #111; padding: 10px 12px; border-radius: 8px; font-size: 0.95em;">
+        📢 No spamming or ads
+      </div>
+      <div style="flex: 1 1 160px; background: #111; padding: 10px 12px; border-radius: 8px; font-size: 0.95em;">
+        🎉 Play fair, have fun!
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🚪 How to Join</h2>
+    <div style="display: grid; gap: 8px;">
+      <div style="background: #111; padding: 8px 10px; border-radius: 6px; font-size: 0.9em;">
+        1️⃣ Open <strong>Minecraft: Java Edition</strong>
+      </div>
+      <div style="background: #111; padding: 8px 10px; border-radius: 6px; font-size: 0.9em;">
+        2️⃣ Click “Multiplayer” → “Add Server”
+      </div>
+      <div style="background: #111; padding: 8px 10px; border-radius: 6px; font-size: 0.9em;">
+        3️⃣ Enter Server IP: <strong>play.befnsmp.com</strong>
+      </div>
+      <div style="background: #111; padding: 8px 10px; border-radius: 6px; font-size: 0.9em;">
+        4️⃣ Click Join and start playing 🎮
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🛒 Support the Server</h2>
+    <p>Want awesome perks, cosmetics, and cool ranks? Visit our official store to support BEFNSMP!</p>
+    <a href="https://store.befnsmp.com" class="button" target="_blank">Visit the Store</a>
+  </section>
+
+  <section>
+    <h2>💬 Join the Community</h2>
+    <p>Connect with other players, share memes, and stay up-to-date with events!</p>
+    <a href="https://discord.gg/kPZgmq3Fe2" class="button" target="_blank">Join Our Discord</a>
+  </section>
+
+  <script>
+    async function checkServerStatus() {
+      try {
+        const res = await fetch("https://api.mcstatus.io/v2/status/java/play.befnsmp.com");
+        const data = await res.json();
+        const statusText = document.getElementById("status-text");
+
+        if (data.online) {
+          statusText.innerHTML = `✅ <strong>Online</strong> - ${data.players.online} / ${data.players.max}`;
+        } else {
+          statusText.innerHTML = `❌ <strong>Offline</strong>`;
+        }
+      } catch (e) {
+        document.getElementById("status-text").innerText = "Error checking status.";
+      }
+    }
+
+    checkServerStatus();
+    setInterval(checkServerStatus, 60000); // refresh every 60s
+  </script>
+
+</body>
+</html>
